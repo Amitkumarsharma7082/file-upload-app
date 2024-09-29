@@ -3,60 +3,59 @@ import "./App.css";
 
 function App() {
   const [file, setFile] = useState(null);
+  const [uploading, setUploading] = useState(false);
 
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
     if (selectedFile) {
       setFile(selectedFile);
+      setUploading(true);
+      // Simulate an upload delay
+      setTimeout(() => {
+        setUploading(false); // Stop uploading message after a short delay
+      }, 1000);
     }
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleDownload = () => {
     if (!file) {
-      alert("Please select a file before submitting.");
+      alert("Please upload a file first.");
       return;
     }
 
-    const formData = new FormData();
-    formData.append("file", file);
+    // Create a link to download the original file
+    const url = URL.createObjectURL(file);
 
-    try {
-      const response = await fetch("http://localhost:5000/upload", {
-        method: "POST",
-        body: formData,
-      });
+    // Create a link element
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", file.name); // Use the original file name for download
 
-      if (response.ok) {
-        alert("File uploaded successfully!");
-      } else {
-        alert("File upload failed.");
-      }
-    } catch (error) {
-      console.error("Error uploading file:", error);
-      alert("Error uploading file.");
-    }
+    // Append to the body and trigger download
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   return (
     <div className="App">
-      <h1>File Upload</h1>
+      <h1>Upload and Download Excel File</h1>
       <div className="upload-box">
-        <form onSubmit={handleSubmit}>
-          <input
-            type="file"
-            onChange={handleFileChange}
-            style={{ display: "none" }}
-            id="fileInput"
-          />
-          <label htmlFor="fileInput" className="file-label">
-            {file ? file.name : "Click here to upload a file"}
-          </label>
-          <button type="submit" className="upload-button">
-            Upload
-          </button>
-        </form>
+        <input
+          type="file"
+          accept=".xlsx, .xls"
+          onChange={handleFileChange}
+          id="fileInput"
+          style={{ display: "none" }}
+        />
+        <label htmlFor="fileInput" className="file-label">
+          {file ? file.name : "Click here to upload an Excel file"}
+        </label>
+        <button className="upload-button" onClick={handleDownload}>
+          Download Uploaded File
+        </button>
       </div>
+      {uploading && <p className="upload-message">File uploading...</p>}
     </div>
   );
 }

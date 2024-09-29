@@ -1,15 +1,18 @@
 .App {
   text-align: center;
   margin-top: 50px;
+  background-color: #121212;
+  color: white;
+  min-height: 100vh;
 }
 
 .upload-box {
-  border: 2px dashed #007bff;
+  border: 2px dashed #bb86fc;
   padding: 20px;
   width: 300px;
   margin: auto;
   border-radius: 10px;
-  background-color: #f9f9f9;
+  background-color: #1e1e1e;
 }
 
 .file-label {
@@ -17,21 +20,31 @@
   padding: 10px;
   cursor: pointer;
   text-align: center;
-  background-color: #007bff;
+  background-color: #bb86fc;
   color: white;
   border-radius: 5px;
   margin-bottom: 10px;
+  transition: background-color 0.3s;
+}
+
+.file-label:hover {
+  background-color: #9b59b6;
 }
 
 .upload-button {
   padding: 10px 20px;
-  background-color: #28a745;
+  background-color: #03dac5;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  transition: background-color 0.3s;
 }
 
 .upload-button:hover {
-  background-color: #218838;
+  background-color: #02b39c;
+}
+.upload-message {
+  margin-top: 20px;
+  color: #bb86fc; /* You can change this to any color you prefer */
 }
